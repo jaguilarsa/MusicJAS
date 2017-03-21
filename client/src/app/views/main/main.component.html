@@ -1,10 +1,15 @@
 <md-sidenav-container>
-  <md-sidenav mode="side" opened="true">
-    <nav>
-      <ul>
-        <li>test</li>
-      </ul>
-    </nav>
-
+  <md-sidenav #left mode="side" align="start">
+    <md-nav-list>
+      <md-list-item *ngFor="let i of (mainData | async)"
+                     (click)="onClick(i.id)">{{ i.name }}</md-list-item>
+    </md-nav-list>
   </md-sidenav>
+  <md-sidenav #right align="end">
+    <ul>
+      <li *ngFor="let i of (listData | async)">i.name</li>
+    </ul>
+  </md-sidenav>
+
+  <chart [data]="chartData | async"></chart>
 </md-sidenav-container>
