@@ -32,7 +32,7 @@ class Genre(models.Model):
 
 
 class Track(models.Model):
-    trackid = models.IntegerField(db_column='TrackId', primary_key=True)
+    id = models.IntegerField(db_column='TrackId', primary_key=True)
     name = models.CharField(db_column='Name', max_length=256)
     album = models.ForeignKey(Album, db_column='AlbumId')
     genre = models.ForeignKey(Genre, db_column='GenreId')

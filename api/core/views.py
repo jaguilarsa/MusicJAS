@@ -1,6 +1,6 @@
 from django.db.models import Avg
-from django.db.models import Max
-from django.db.models import Min
+from django_filters import FilterSet, NumberFilter, CharFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, views
 from rest_framework.response import Response
 
@@ -17,19 +17,33 @@ class GenreView(generics.ListAPIView):
     pagination_class = None
 
 
+class TrackFilter(FilterSet):
+    min_duration = NumberFilter(name="duration", lookup_expr='gte')
+    max_duration = NumberFilter(name="duration", lookup_expr='lte')
+    genre = NumberFilter(name='genre')
+    artist = NumberFilter(name='album__artist__1d')
+    album = NumberFilter(name='album__id')
+    artist__name = CharFilter(name='album__artist__name')
+
+    class Meta:
+        model = Track
+        fields = ['genre', 'artist', 'artist__name', 'album', 'min_duration', 'max_duration']
+
+
 class TrackView(generics.ListAPIView):
     """
-    API endpoint that allows users to be view with filter, pagination and sort.
+    API endpoint that allows users to be view with filter, pagination and ordering.
     """
-    queryset = Track.objects.all()
     serializer_class = TrackSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = TrackFilter
 
     def get_queryset(self):
         queryset = Track.objects.all()
-        genre = self.request.query_params.get('genre', None)
-        if genre is not None:
-            queryset = queryset.filter(genre=genre)
-        return queryset.order_by('album__artist__name')
+        ordering = self.request.query_params.get('ordering', None)
+        if ordering in ['album', 'album__artist', 'genre']:
+            queryset = queryset.order_by(ordering)
+        return queryset
 
 
 class AverageView(views.APIView):
@@ -47,5 +61,5 @@ class AverageView(views.APIView):
 
         return Response(queryset.values_list('album__artist__name')
                         .annotate(duration__avg=Avg('duration'))
-                        .values('album__artist__name', 'duration__avg', 'duration__min', 'duration__max')
+                        .values('album__artist__name', 'duration__avg')
                         .order_by('album__artist__name'))
