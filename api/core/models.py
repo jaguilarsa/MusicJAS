@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Artist(models.Model):
-    artistid = models.IntegerField(db_column='ArtistId', primary_key=True)
+    id = models.IntegerField(db_column='ArtistId', primary_key=True)
     name = models.CharField(db_column='Name', max_length=256)
 
     class Meta:
@@ -13,7 +13,7 @@ class Artist(models.Model):
 
 
 class Album(models.Model):
-    albumid = models.IntegerField(db_column='AlbumId', primary_key=True)
+    id = models.IntegerField(db_column='AlbumId', primary_key=True)
     name = models.CharField(db_column='Title', max_length=256)
     artist = models.ForeignKey(Artist, db_column='ArtistId')
 
@@ -23,7 +23,7 @@ class Album(models.Model):
 
 
 class Genre(models.Model):
-    genreid = models.IntegerField(db_column='GenreId', primary_key=True)
+    id = models.IntegerField(db_column='GenreId', primary_key=True)
     name = models.CharField(db_column='Name', max_length=256)
 
     class Meta:
