@@ -1,1 +1,3 @@
-$nav-button-color: #00838F;
+@import '~@angular/material/core/theming/theming';
+
+$theme: mat-light-theme($mat-blue-grey, $mat-blue);
