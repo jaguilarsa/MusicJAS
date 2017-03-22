@@ -1,14 +1,25 @@
 <md-sidenav-container>
   <md-sidenav #left mode="side" align="start">
-    <md-nav-list>
+    <md-list dense>
       <md-list-item *ngFor="let i of (mainData | async)"
                      (click)="onClick(i.id)">{{ i.name }}</md-list-item>
-    </md-nav-list>
+    </md-list>
   </md-sidenav>
   <md-sidenav #right align="end">
-    <ul>
-      <li *ngFor="let i of (listData | async)">i.name</li>
-    </ul>
+    <swui-datatable
+        class="material"
+        [rows]="rows"
+        [columns]="[{name:'Name'},{name:'Gender'},{name:'Company'}]"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [externalPaging]="true"
+        [count]="count"
+        [offset]="offset"
+        [limit]="limit"
+        (page)='onPage($event)'>
+    </swui-datatable>
   </md-sidenav>
 
   <chart [data]="chartData | async"></chart>

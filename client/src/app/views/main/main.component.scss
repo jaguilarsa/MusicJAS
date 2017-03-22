@@ -3,6 +3,11 @@
     md-sidenav {
       width: 300px;
       height: 100%;
+      md-list > md-list-item {
+        cursor: pointer;
+      }
+    }
+    .mat-sidenav-content {
     }
   }
 }
