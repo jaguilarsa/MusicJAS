@@ -171,11 +171,10 @@ module.exports = function (options) {
             '@angular/platform-browser-dynamic',
             '@angular/core',
             '@angular/common',
-            '@angular/forms',
             '@angular/http',
-            '@angular/router',
             '@angularclass/hmr',
             'rxjs',
+            'd3',
           ]
         },
         dllDir: helpers.root('dll'),
