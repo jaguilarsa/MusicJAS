@@ -1,0 +1,9 @@
+<md-list>
+  <md-list-item
+      *ngFor="let track of (asyncData| async).results | paginate: { id: 'server', itemsPerPage: 20, currentPage: page, totalItems: count }">
+    <h3>{{ track.name }}</h3>
+    <p>{{ track.album.name }} - {{ track.album.artist.name }} :: {{ track.duration }} milliseconds</p>
+  </md-list-item>
+</md-list>
+<div class="spinner" [hidden]="!loading"></div>
+<pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
