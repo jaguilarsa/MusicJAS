@@ -1,13 +1,20 @@
 :host {
   md-sidenav-container {
+    position: relative;
     md-sidenav {
-      width: 300px;
+      width: 200px;
       height: 100%;
       md-list > md-list-item {
         cursor: pointer;
       }
     }
-    .mat-sidenav-content {
+    #detail--button {
+      z-index: 100;
+      position: absolute;
+      top: 24px;
+      right: 15%;
+      width: 75px;
+      height: 36px;
     }
   }
 }

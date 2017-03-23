@@ -1,26 +1,14 @@
 <md-sidenav-container>
   <md-sidenav #left mode="side" align="start">
     <md-list dense>
-      <md-list-item *ngFor="let i of (mainData | async)"
-                     (click)="onClick(i.id)">{{ i.name }}</md-list-item>
+      <md-list-item *ngFor="let data of (mainData | async)"
+                     (click)="selected = data.id"
+                    [class.selected]="selected === data.id">{{ data.name }}</md-list-item>
     </md-list>
   </md-sidenav>
   <md-sidenav #right align="end">
-    <swui-datatable
-        class="material"
-        [rows]="rows"
-        [columns]="[{name:'Name'},{name:'Gender'},{name:'Company'}]"
-        [columnMode]="'force'"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        [rowHeight]="'auto'"
-        [externalPaging]="true"
-        [count]="count"
-        [offset]="offset"
-        [limit]="limit"
-        (page)='onPage($event)'>
-    </swui-datatable>
+    <pagination *ngIf="right.opened" [data]="paginationData | async"></pagination>
   </md-sidenav>
-
   <chart [data]="chartData | async"></chart>
+  <button md-button id="detail--button" (click)="onDetailsClick()">Details</button>
 </md-sidenav-container>
