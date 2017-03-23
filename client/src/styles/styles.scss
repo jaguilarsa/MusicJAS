@@ -25,3 +25,7 @@ html, body, app, main-view, md-sidenav-container {
   -moz-user-select: none !important;
   user-select: none !important;
 }
+
+[hidden] {
+  display: none !important;
+}
