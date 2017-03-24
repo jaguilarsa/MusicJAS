@@ -1,9 +1,54 @@
-<md-list>
-  <md-list-item
-      *ngFor="let track of (asyncData| async).results | paginate: { id: 'server', itemsPerPage: 20, currentPage: page, totalItems: count }">
-    <h3>{{ track.name }}</h3>
-    <p>{{ track.album.name }} - {{ track.album.artist.name }} :: {{ track.duration }} milliseconds</p>
-  </md-list-item>
-</md-list>
-<div class="spinner" [hidden]="!loading"></div>
-<pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+<div id="container">
+  <md-grid-list cols="9" rowHeight="4.6%">
+    <md-grid-tile class="header"
+        colspan="3"
+        rowspan="1">
+      Name
+    </md-grid-tile>
+    <md-grid-tile class="header"
+        colspan="2"
+        rowspan="1">
+      Artist
+    </md-grid-tile>
+    <md-grid-tile class="header"
+                  colspan="3"
+                  rowspan="1">
+      Album
+    </md-grid-tile>
+    <md-grid-tile class="header"
+        colspan="1"
+        rowspan="1">
+      Duration
+    </md-grid-tile>
+    <template ngFor let-track
+              [ngForOf]="(asyncData| async)?.results | paginate: { id: 'server', itemsPerPage: 17, currentPage: page, totalItems: count }"
+              let-i="index">
+      <md-grid-tile
+          colspan="3"
+          rowspan="1">
+        {{ track.name }}
+      </md-grid-tile>
+      <md-grid-tile
+          colspan="2"
+          rowspan="1">
+        {{ track.album.artist.name }}
+      </md-grid-tile>
+      <md-grid-tile
+          colspan="3"
+          rowspan="1">
+        {{ track.album.name }}
+      </md-grid-tile>
+      <md-grid-tile
+          colspan="1"
+          rowspan="1">
+        {{ track.duration | date:"mm:ss" }}
+      </md-grid-tile>
+    </template>
+  </md-grid-list>
+</div>
+<div id="pagination">
+  <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+</div>
+<div id="spinner" [hidden]="!loading">
+  <md-progress-spinner></md-progress-spinner>
+</div>

@@ -10,6 +10,12 @@
 @import '~@angular/material/list/list-theme';
 @include mat-list-theme($theme);
 
+@import '~@angular/material/button/button-theme';
+@include mat-button-theme($theme);
+
+@import '~@angular/material/grid-list/grid-list-theme';
+@include mat-grid-list-theme($theme);
+
 html, body, app, main-view, md-sidenav-container {
   font-family: Roboto, Material Icons, serif;
   user-select: none;
@@ -17,10 +23,10 @@ html, body, app, main-view, md-sidenav-container {
   //reset values
   display: block;
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
 
-  overflow: hidden;
   // No selectable
   -moz-user-select: none !important;
   user-select: none !important;
@@ -28,4 +34,13 @@ html, body, app, main-view, md-sidenav-container {
 
 [hidden] {
   display: none !important;
+}
+
+#server > pagination-template > ul.ng2-pagination > li {
+  font-family: Roboto;
+  font-size: 1rem !important;
+  cursor: pointer !important;
+  .disabled {
+    cursor: not-allowed !important;
+  }
 }

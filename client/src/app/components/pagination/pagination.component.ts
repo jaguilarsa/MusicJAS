@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, SimpleChanges } from '@angular/core';
-
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
@@ -19,20 +18,19 @@ export interface Data {
 }
 
 export interface Album extends Data {
-  artist: Data;
+    artist: Data;
 }
 
 export interface TrackData {
-   name: string;
-   duration: number;
-   album: Album;
+    name: string;
+    duration: number;
+    album: Album;
 }
 
-
 @Component({
-    selector: 'pagination',
-    templateUrl: 'pagination.component.html',
-    styleUrls: ['pagination.component.scss'],
+    selector:        'pagination',
+    templateUrl:     'pagination.component.html',
+    styleUrls:       ['pagination.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaginationComponent {
@@ -47,24 +45,30 @@ export class PaginationComponent {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (this.data) {
-          this.asyncData = Observable.of(this.data);
+        this.loading = true;
+        if ((<any>changes).data.currentValue) {
+            this.count = this.data.count;
+            this.asyncData = Observable.of(this.data)
+            .do((res) => {
+                this.count = res.count;
+                this.page = 1;
+                this.loading = false;
+            })
         }
     }
 
     getPage(page: number) {
-        this.loading = true;
-        const reqPath = this.data.next? this.data.next.split('=').slice(-1).concat([`${page}`]).join('='): '';
-        this.asyncData = this.http.get(reqPath)
-        .map((res): PaginationServerResponse<TrackData> => res.json())
-        .do((res) => {
-            this.count = res.count;
-            this.page = page;
-            this.loading = false;
-        })
+        if (/page=\d+$/.test(this.data.next || this.data.previous)) {
+            this.loading = true;
+            this.asyncData = this.http.get((this.data.next || this.data.previous)
+                .split('=').slice(0, -1).concat([`${page}`]).join('='))
+            .map((res): PaginationServerResponse<TrackData> => res.json())
+            .do((res) => {
+                this.page = page;
+                this.loading = false;
+            })
+        } else {
+            console.error('Expected page parameter at last position in server response next url');
+        }
     }
-
-
-
-
 }

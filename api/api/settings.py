@@ -56,7 +56,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 REST_FRAMEWORK = {
-    'PAGE_SIZE': 30
+    'PAGE_SIZE': 20
 }
 
 ROOT_URLCONF = 'api.urls'

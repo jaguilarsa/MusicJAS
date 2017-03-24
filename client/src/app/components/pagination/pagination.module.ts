@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { MdListModule } from '@angular/material/list';
 import { MdProgressCircleModule } from '@angular/material/progress-spinner';
-import { PaginationComponent } from './pagination.component';
+import { MdGridListModule } from '@angular/material/grid-list';
 import { Ng2PaginationModule } from 'ng2-pagination';
+import { PaginationComponent } from './pagination.component';
 
 @NgModule({
-    imports:      [CommonModule, MdListModule, MdProgressCircleModule, Ng2PaginationModule],
+    imports:      [CommonModule, MdListModule, MdGridListModule, MdProgressCircleModule, Ng2PaginationModule],
     providers:    [HttpModule],
     declarations: [PaginationComponent],
     exports:      [PaginationComponent]

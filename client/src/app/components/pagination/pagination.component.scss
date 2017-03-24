@@ -1,0 +1,30 @@
+@import "../../../styles/variables";
+
+:host {
+  display: block;
+  box-sizing: border-box;
+  overflow: hidden;
+  height:100%;
+  width: 100%;
+
+  #container {
+    overflow: auto;
+    height: calc(100% - 60px);
+    box-sizing: border-box;
+    width: 100%;
+    md-grid-tile {
+      font-size: 0.8rem;
+      &.header {
+        font-size: 1rem;
+        background-color: mat-color(map_get($theme, primary), lighter);
+      }
+    }
+  }
+
+  #pagination {
+    box-sizing: border-box;
+    background-color: white;
+    height: 5%;
+    width: 100%;
+  }
+}
