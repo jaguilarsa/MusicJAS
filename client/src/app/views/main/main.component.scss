@@ -1,20 +1,33 @@
+@import "../../../styles/variables";
+
 :host {
   md-sidenav-container {
     position: relative;
     md-sidenav {
-      width: 200px;
+      width: 20%;
       height: 100%;
       md-list > md-list-item {
         cursor: pointer;
       }
+      md-list > md-list-item.selected {
+        cursor: not-allowed;
+        pointer-events: none;
+        background-color: mat-color(map_get($theme, primary), lighter);
+      }
+    }
+    md-sidenav#right {
+      width: 50%;
     }
     #detail--button {
       z-index: 100;
       position: absolute;
-      top: 24px;
-      right: 15%;
-      width: 75px;
-      height: 36px;
+      top: 0;
+      right: 0;
+      width: 20%;
+      height: 48px;
+      font-size: 150%;
+      text-align: start;
+      vertical-align: middle;
     }
   }
 }

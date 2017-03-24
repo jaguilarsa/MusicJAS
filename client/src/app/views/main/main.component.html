@@ -6,9 +6,15 @@
                     [class.selected]="selected === data.id">{{ data.name }}</md-list-item>
     </md-list>
   </md-sidenav>
-  <md-sidenav #right align="end">
-    <pagination *ngIf="right.opened" [data]="paginationData | async"></pagination>
+  <md-sidenav id="right" mode="push" #right align="end">
+    <pagination [data]="paginationData | async"></pagination>
   </md-sidenav>
   <chart [data]="chartData | async"></chart>
-  <button md-button id="detail--button" (click)="onDetailsClick()">Details</button>
+  <button md-raised-button
+          class="mat-primary" id="detail--button"
+          [hidden]="!selected || right.opened"
+          (click)="onDetailsClick()">Details</button>
 </md-sidenav-container>
+<div id="spinner" [hidden]="!loading">
+  <md-progress-circle></md-progress-circle>
+</div>

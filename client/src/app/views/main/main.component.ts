@@ -32,6 +32,7 @@ export class MainViewComponent implements OnInit {
         this._selected = i;
         this.onListItemClick();
     }
+
     public get selected() {
         return this._selected;
     }
@@ -47,7 +48,10 @@ export class MainViewComponent implements OnInit {
     public ngOnInit() {
         this.loading = true;
         // Fix changes sidenav change issue
-        setTimeout(this.left.open(), 1000);
+        setTimeout(() => {
+            this.left.open();
+            this.left.disableClose = true;
+        }, 1000);
         this.mainData = this.http.get(`${API_URL}genre/`)
         .map((res: Response): ListData[] => res.json())
         .do(() => {
@@ -58,8 +62,9 @@ export class MainViewComponent implements OnInit {
     public onDetailsClick() {
         this.loading = true;
 
+        this.right.open();
         this.paginationData = this.http.get(`${API_URL}track/?genre=${this._selected}`)
-            .map((res: Response): PaginationServerResponse<TrackData> => res.json())
+        .map((res: Response): PaginationServerResponse<TrackData> => res.json())
         .do(() => {
             this.loading = false;
         });
