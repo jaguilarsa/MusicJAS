@@ -1,15 +1,24 @@
 import {
     Component, OnChanges, ViewChild, ElementRef, Input, ChangeDetectionStrategy, OnDestroy, SimpleChanges, OnInit
 } from '@angular/core';
-import * as d3 from 'd3';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/do';
-import { Subscription } from 'rxjs';
+import 'rxjs/add/operator/debounceTime';
+
+import * as d3 from 'd3';
 
 export interface ChartData {
     millis: number;
     label: string;
+}
+
+export interface Margins {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
 }
 
 @Component({
@@ -20,11 +29,12 @@ export interface ChartData {
 })
 export class ChartComponent implements OnInit, OnChanges, OnDestroy {
     @ViewChild('chart') private chartContainer: ElementRef;
+
     @Input('data') private data: ChartData[];
+    @Input('margin') private margin: Margins = { top: 80, bottom: 80, left: 120, right: 80 };
 
     private subs: Subscription[] = [];
 
-    private margin: any = { top: 80, bottom: 80, left: 120, right: 80 };
     private width: number;
     private height: number;
     private colors: any;
@@ -41,7 +51,9 @@ export class ChartComponent implements OnInit, OnChanges, OnDestroy {
     private svg: any;
 
     public ngOnInit() {
-        this.subs.push(Observable.fromEvent(window, 'resize').map(() => {
+        this.subs.push(Observable.fromEvent(window, 'resize')
+        .debounceTime(100)
+        .map(() => {
             if (this.data && this.chartContainer) {
                 this.resize();
             }
@@ -49,7 +61,9 @@ export class ChartComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public ngOnChanges(changes: SimpleChanges) {
-        if (this.chartContainer && this.data) {
+        if (this.chartContainer &&
+            (<any>changes).data.currentValue &&
+            !Object.is((<any>changes).data.currentValues, (<any>changes).data.previousValue)) {
             if (this.chart) {
                 this.update();
             } else {
