@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
@@ -9,12 +9,12 @@ export interface PaginationServerResponse<T> {
     count: number;
     next: string;
     previous: string;
-    results: T[]
+    results: T[];
 }
 
 export interface Data {
     id: number;
-    name: string
+    name: string;
 }
 
 export interface Album extends Data {
@@ -33,40 +33,40 @@ export interface TrackData {
     styleUrls:       ['pagination.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnChanges {
 
-    @Input('data') data: PaginationServerResponse<TrackData>;
-    asyncData: Observable<PaginationServerResponse<TrackData>>;
-    page: number;
-    count: number;
-    loading: boolean;
+    public asyncData: Observable<PaginationServerResponse<TrackData>>;
+    public page: number;
+    public count: number;
+    public loading: boolean;
 
+    @Input('data') private data: PaginationServerResponse<TrackData>;
     constructor(private http: Http) {
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    public ngOnChanges(changes: SimpleChanges) {
         this.loading = true;
-        if ((<any>changes).data.currentValue) {
+        if ((<any> changes).data.currentValue) {
             this.count = this.data.count;
             this.asyncData = Observable.of(this.data)
             .do((res) => {
                 this.count = res.count;
                 this.page = 1;
                 this.loading = false;
-            })
+            });
         }
     }
 
-    getPage(page: number) {
+    public getPage(page: number) {
         if (/page=\d+$/.test(this.data.next || this.data.previous)) {
             this.loading = true;
             this.asyncData = this.http.get((this.data.next || this.data.previous)
-                .split('=').slice(0, -1).concat([`${page}`]).join('='))
+            .split('=').slice(0, -1).concat([`${page}`]).join('='))
             .map((res): PaginationServerResponse<TrackData> => res.json())
-            .do((res) => {
+            .do(() => {
                 this.page = page;
                 this.loading = false;
-            })
+            });
         } else {
             console.error('Expected page parameter at last position in server response next url');
         }

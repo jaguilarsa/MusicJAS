@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/debounceTime';
-
 import * as d3 from 'd3';
 
 export interface ChartData {
@@ -31,7 +30,7 @@ export class ChartComponent implements OnInit, OnChanges, OnDestroy {
     @ViewChild('chart') private chartContainer: ElementRef;
 
     @Input('data') private data: ChartData[];
-    @Input('margin') private margin: Margins = { top: 80, bottom: 80, left: 120, right: 80 };
+    @Input('margin') private margin: Margins = { top: 80, bottom: 80, left: 140, right: 80 };
 
     private subs: Subscription[] = [];
 
@@ -62,8 +61,8 @@ export class ChartComponent implements OnInit, OnChanges, OnDestroy {
 
     public ngOnChanges(changes: SimpleChanges) {
         if (this.chartContainer &&
-            (<any>changes).data.currentValue &&
-            !Object.is((<any>changes).data.currentValues, (<any>changes).data.previousValue)) {
+            (<any> changes).data.currentValue &&
+            !Object.is((<any> changes).data.currentValues, (<any> changes).data.previousValue)) {
             if (this.chart) {
                 this.update();
             } else {
@@ -184,6 +183,6 @@ export class ChartComponent implements OnInit, OnChanges, OnDestroy {
         .transition()
         .delay((d, i) => i * 10)
         .attr('y', (d: ChartData) => this.yScale(d.label))
-        .attr('width', (d: ChartData) => this.xScale(d.millis))
+        .attr('width', (d: ChartData) => this.xScale(d.millis));
     }
 }

@@ -8,7 +8,9 @@ import { Ng2PaginationModule } from 'ng2-pagination';
 import { PaginationComponent } from './pagination.component';
 
 @NgModule({
-    imports:      [CommonModule, MdListModule, MdGridListModule, MdProgressCircleModule, Ng2PaginationModule],
+    imports:      [CommonModule, MdListModule, MdGridListModule, MdProgressCircleModule,
+        Ng2PaginationModule
+    ],
     providers:    [HttpModule],
     declarations: [PaginationComponent],
     exports:      [PaginationComponent]

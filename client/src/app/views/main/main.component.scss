@@ -3,8 +3,9 @@
 :host {
   md-sidenav-container {
     position: relative;
-    md-sidenav {
+    md-sidenav#left {
       width: 20%;
+      max-width: 250px;
       height: 100%;
       md-list > md-list-item {
         cursor: pointer;
@@ -16,16 +17,26 @@
       }
     }
     md-sidenav#right {
+      display: block;
+      height: 100%;
       width: 50%;
+      min-width: 390px;
+      pagination {
+        box-sizing: border-box;
+        height: 100%;
+        width: 100%;
+      }
     }
+
     #detail--button {
       z-index: 100;
       position: absolute;
       top: 0;
       right: 0;
       width: 20%;
-      height: 48px;
-      font-size: 150%;
+      height: 5%;
+      min-height: 48px;
+      font-size: 1.5rem;
       text-align: start;
       vertical-align: middle;
     }

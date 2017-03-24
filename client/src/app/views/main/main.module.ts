@@ -10,8 +10,9 @@ import { ChartComponent } from '../../components/chart/chart.component';
 import { PaginationModule } from '../../components/pagination/pagination.module';
 
 @NgModule({
-    imports:      [CommonModule, MdCoreModule, MdSidenavModule, MdListModule, MdButtonModule, MdProgressCircleModule,
-        PaginationModule],
+    imports:      [CommonModule, MdCoreModule, MdSidenavModule, MdListModule, MdButtonModule,
+        MdProgressCircleModule, PaginationModule
+    ],
     declarations: [MainViewComponent, ChartComponent],
     exports:      [MainViewComponent]
 })

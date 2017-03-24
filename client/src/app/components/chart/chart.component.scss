@@ -1,15 +1,18 @@
-.d3-chart {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
+:host {
 
-.d3-chart > .axis {
-  path, line {
-    stroke: #999;
+  min-height: 450px;
+  min-width: 500px;
+  .d3-chart {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    .axis {
+      path, line {
+        stroke: #999;
+      }
+      text {
+        fill: #999;
+      }
+    }
   }
-}
-
-.d3-chart > .axis > text {
-  fill: #999;
 }

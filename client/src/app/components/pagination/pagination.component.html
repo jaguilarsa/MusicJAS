@@ -21,7 +21,7 @@
       Duration
     </md-grid-tile>
     <template ngFor let-track
-              [ngForOf]="(asyncData| async)?.results | paginate: { id: 'server', itemsPerPage: 17, currentPage: page, totalItems: count }"
+              [ngForOf]="(asyncData| async)?.results | paginate: { id: 'server', itemsPerPage: 20, currentPage: page, totalItems: count }"
               let-i="index">
       <md-grid-tile
           colspan="3"

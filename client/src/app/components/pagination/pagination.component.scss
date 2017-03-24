@@ -4,27 +4,43 @@
   display: block;
   box-sizing: border-box;
   overflow: hidden;
-  height:100%;
+  min-height: 32 * 21 + 90px;
+  height: 100%;
   width: 100%;
+  position: relative;
 
   #container {
-    overflow: auto;
-    height: calc(100% - 60px);
     box-sizing: border-box;
     width: 100%;
-    md-grid-tile {
-      font-size: 0.8rem;
-      &.header {
-        font-size: 1rem;
-        background-color: mat-color(map_get($theme, primary), lighter);
+    height: 100%;
+    overflow: auto;
+    md-grid-list {
+      height: 100%;
+      md-grid-tile {
+        height: 4.6%;
+        font-size: 12px;
+        line-height: 16px;
+        &.header {
+          background-color: mat-color(map_get($theme, primary), lighter);
+        }
       }
     }
   }
 
   #pagination {
+    position: absolute;
+    bottom: 0;
     box-sizing: border-box;
     background-color: white;
-    height: 5%;
+    height: 6%;
+    min-height: 90px;
     width: 100%;
   }
+}
+
+#server > pagination-template > ul {
+  box-sizing: border-box;
+  padding: 0;
+  margin-top:0;
+  margin-bottom: 8px;
 }

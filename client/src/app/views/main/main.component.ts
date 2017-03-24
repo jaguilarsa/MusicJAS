@@ -26,8 +26,8 @@ export class MainViewComponent implements OnInit {
     public chartData: Observable<ChartData[]>;
     public mainData: Observable<ListData[]>;
     public paginationData: Observable<PaginationServerResponse<TrackData>>;
+    public loading: boolean;
 
-    private _selected: number;
     public set selected(i: number) {
         this._selected = i;
         this.onListItemClick();
@@ -37,10 +37,10 @@ export class MainViewComponent implements OnInit {
         return this._selected;
     }
 
-    public loading: boolean;
-
-    @ViewChild('right') private right: MdSidenav;
+    @ViewChild('right') public right: MdSidenav;
     @ViewChild('left') private left: MdSidenav;
+
+    private _selected: number;
 
     constructor(private http: Http) {
     }
@@ -74,7 +74,8 @@ export class MainViewComponent implements OnInit {
         this.loading = true;
         this.chartData = this.http.get(`${API_URL}avg/?genre=${this._selected}`)
         .map((res: Response): ChartData[] => res.json()
-            .map((data): ChartData => ({ label: data.album__artist__name, millis: data.duration__avg }))
+            .map((data): ChartData =>
+                ({ label: data.album__artist__name, millis: data.duration__avg }))
         )
         .do(() => {
             this.loading = false;
