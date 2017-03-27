@@ -2,6 +2,8 @@
  * @author: @AngularClass
  */
 
+const fs = require('fs');
+
 const helpers = require('./helpers');
 const webpackMerge = require('webpack-merge'); // used to merge webpack configs
 const commonConfig = require('./webpack.common.js'); // the settings that are common to prod and dev
@@ -32,6 +34,29 @@ const METADATA = webpackMerge(commonConfig({
   ENV: ENV,
   HMR: false
 });
+
+let CONST = {
+  'ENV': JSON.stringify(METADATA.ENV),
+  'HMR': METADATA.HMR,
+  'process.env': {
+    'ENV': JSON.stringify(METADATA.ENV),
+    'NODE_ENV': JSON.stringify(METADATA.ENV),
+    'HMR': METADATA.HMR,
+  }
+};
+
+let conf;
+const confFile = helpers.root('client.conf.json');
+// Parse Client conf
+if (fs.existsSync(confFile)) {
+  conf = require(confFile);
+}
+
+if (conf) {
+  Object.keys(conf.dev).forEach((key) => {
+    CONST[key] = JSON.stringify(conf.dev[key]);
+  });
+}
 
 module.exports = function (env) {
   return webpackMerge(commonConfig({
@@ -154,16 +179,7 @@ module.exports = function (env) {
        * See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
        */
       // NOTE: when adding more properties make sure you include them in custom-typings.d.ts
-      new DefinePlugin({
-        'ENV': JSON.stringify(METADATA.ENV),
-        'HMR': METADATA.HMR,
-        'process.env': {
-          'ENV': JSON.stringify(METADATA.ENV),
-          'NODE_ENV': JSON.stringify(METADATA.ENV),
-          'HMR': METADATA.HMR,
-        }
-      }),
-
+      new DefinePlugin(CONST),
       /**
        * Plugin: UglifyJsPlugin
        * Description: Minimize all JavaScript output of chunks.
@@ -300,8 +316,7 @@ module.exports = function (env) {
           },
 
         }
-      }),
-
+      })
       /**
        * Plugin: BundleAnalyzerPlugin
        * Description: Webpack plugin and CLI utility that represents

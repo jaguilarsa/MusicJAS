@@ -14,7 +14,7 @@ interface ListData {
     id: number;
 }
 
-const API_URL: string = 'http://localhost:8000/';
+const URL: string = API_URL;
 
 @Component({
     selector:    'main-view',
@@ -52,7 +52,7 @@ export class MainViewComponent implements OnInit {
             this.left.open();
             this.left.disableClose = true;
         }, 1000);
-        this.mainData = this.http.get(`${API_URL}genre/`)
+        this.mainData = this.http.get(`${URL}genre/`)
         .map((res: Response): ListData[] => res.json())
         .do(() => {
             this.loading = false;
@@ -63,7 +63,7 @@ export class MainViewComponent implements OnInit {
         this.loading = true;
 
         this.right.open();
-        this.paginationData = this.http.get(`${API_URL}track/?genre=${this._selected}`)
+        this.paginationData = this.http.get(`${URL}track/?genre=${this._selected}`)
         .map((res: Response): PaginationServerResponse<TrackData> => res.json())
         .do(() => {
             this.loading = false;
@@ -72,7 +72,7 @@ export class MainViewComponent implements OnInit {
 
     public onListItemClick() {
         this.loading = true;
-        this.chartData = this.http.get(`${API_URL}avg/?genre=${this._selected}`)
+        this.chartData = this.http.get(`${URL}avg/?genre=${this._selected}`)
         .map((res: Response): ChartData[] => res.json()
             .map((data): ChartData =>
                 ({ label: data.album__artist__name, millis: data.duration__avg }))
