@@ -10,7 +10,6 @@ import { ENV_PROVIDERS } from './environment';
 import { AppComponent } from './app.component';
 import { AppState, InternalStateType } from './app.service';
 import '../styles/styles.scss';
-import '../styles/headings.css';
 import { MainViewModule } from './views/main/main.module';
 
 // Application wide providers
