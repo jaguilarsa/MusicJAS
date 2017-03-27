@@ -1,5 +1,6 @@
 import {
-    Component, OnChanges, ViewChild, ElementRef, Input, ChangeDetectionStrategy, OnDestroy, SimpleChanges, OnInit
+    ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit,
+    SimpleChanges, ViewChild
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -30,7 +31,16 @@ export class ChartComponent implements OnInit, OnChanges, OnDestroy {
     @ViewChild('chart') public chartContainer: ElementRef;
 
     @Input('data') public data: ChartData[];
-    @Input('margin') public margin: Margins = { top: 80, bottom: 80, left: 140, right: 80 };
+
+    @Input('margin')
+    public set margin(m: Margins) {
+        this._margin = m;
+        if (this.chart) {
+            this.resize();
+        }
+    }
+
+    private _margin = { top: 80, bottom: 80, left: 140, right: 80 };
 
     private subs: Subscription[] = [];
 
@@ -60,9 +70,7 @@ export class ChartComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public ngOnChanges(changes: SimpleChanges) {
-        if (this.chartContainer &&
-            (<any> changes).data.currentValue &&
-            !Object.is((<any> changes).data.currentValues, (<any> changes).data.previousValue)) {
+        if (this.chartContainer && this.data) {
             if (this.chart) {
                 this.update();
             } else {
@@ -88,7 +96,7 @@ export class ChartComponent implements OnInit, OnChanges, OnDestroy {
         // chart plot area
         this.chart = this.svg.append('g')
         .attr('class', 'bars')
-        .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
+        .attr('transform', `translate(${this._margin.left}, ${this._margin.top})`);
 
         // bar colors
         this.colors = d3.scaleLinear()
@@ -97,12 +105,13 @@ export class ChartComponent implements OnInit, OnChanges, OnDestroy {
         // x & y axis
         this.xAxis = this.svg.append('g')
         .attr('class', 'axis axis-x')
-        .attr('transform', `translate(${this.margin.left}, ${this.margin.top + this.height})`)
+        .attr('transform',
+            `translate(${this._margin.left}, ${this._margin.top + this.height})`)
         .call(d3.axisBottom(this.xScale).tickFormat(d3.timeFormat('%M:%S')));
 
         this.yAxis = this.svg.append('g')
         .attr('class', 'axis axis-y')
-        .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
+        .attr('transform', `translate(${this._margin.left}, ${this._margin.top})`)
         .call(d3.axisLeft(this.yScale));
         this.update();
     }
@@ -114,8 +123,8 @@ export class ChartComponent implements OnInit, OnChanges, OnDestroy {
 
     private setSize(): HTMLDivElement {
         const element: HTMLDivElement = this.chartContainer.nativeElement;
-        this.width = element.offsetWidth - this.margin.left - this.margin.right;
-        this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
+        this.width = element.offsetWidth - this._margin.left - this._margin.right;
+        this.height = element.offsetHeight - this._margin.top - this._margin.bottom;
         this.xScale = d3.scaleTime().domain(this.xDomain).range([0, this.width]);
         this.yScale = d3.scaleBand().padding(0.1).domain(this.yDomain).rangeRound([0, this.height]);
         return element;
@@ -131,13 +140,13 @@ export class ChartComponent implements OnInit, OnChanges, OnDestroy {
         this.xAxis = this.xAxis
         .attr('x', 0)
         .attr('y', 0)
-        .attr('transform', `translate(${this.margin.left}, ${this.margin.top + this.height})`)
+        .attr('transform', `translate(${this._margin.left}, ${this._margin.top + this.height})`)
         .call(d3.axisBottom(this.xScale).tickFormat(d3.timeFormat('%M:%S')));
 
         this.yAxis = this.yAxis
         .attr('x', 0)
         .attr('y', 0)
-        .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
+        .attr('transform', `translate(${this._margin.left}, ${this._margin.top})`)
         .call(d3.axisLeft(this.yScale));
         this.updateBars();
     }
