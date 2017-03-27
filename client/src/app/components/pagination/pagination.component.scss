@@ -4,22 +4,21 @@
   display: block;
   box-sizing: border-box;
   overflow: hidden;
-  min-height: 32 * 21 + 90px;
   height: 100%;
   width: 100%;
   position: relative;
-
+  md-grid-list {
+    md-grid-tile.header {
+      background-color: mat-color(map_get($theme, primary), lighter);
+    }
+  }
   #container {
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
     overflow: auto;
+    height: calc(100% - 88px);
     md-grid-list {
-      height: 100%;
       md-grid-tile {
-        height: 4.6%;
-        font-size: 12px;
-        line-height: 16px;
+        font-size: 0.8rem;
+        min-font-size: 12px;
         &.header {
           background-color: mat-color(map_get($theme, primary), lighter);
         }
@@ -32,8 +31,7 @@
     bottom: 0;
     box-sizing: border-box;
     background-color: white;
-    height: 6%;
-    min-height: 90px;
+    height: 60px;
     width: 100%;
   }
 }
@@ -41,6 +39,6 @@
 #server > pagination-template > ul {
   box-sizing: border-box;
   padding: 0;
-  margin-top:0;
+  margin-top: 0;
   margin-bottom: 8px;
 }

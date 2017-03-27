@@ -1,25 +1,27 @@
+<md-grid-list cols="9" rowHeight="28">
+  <md-grid-tile class="header"
+                colspan="3"
+                rowspan="1">
+    Name
+  </md-grid-tile>
+  <md-grid-tile class="header"
+                colspan="2"
+                rowspan="1">
+    Artist
+  </md-grid-tile>
+  <md-grid-tile class="header"
+                colspan="3"
+                rowspan="1">
+    Album
+  </md-grid-tile>
+  <md-grid-tile class="header"
+                colspan="1"
+                rowspan="1">
+    Duration
+  </md-grid-tile>
+</md-grid-list>
 <div id="container">
-  <md-grid-list cols="9" rowHeight="4.6%">
-    <md-grid-tile class="header"
-        colspan="3"
-        rowspan="1">
-      Name
-    </md-grid-tile>
-    <md-grid-tile class="header"
-        colspan="2"
-        rowspan="1">
-      Artist
-    </md-grid-tile>
-    <md-grid-tile class="header"
-                  colspan="3"
-                  rowspan="1">
-      Album
-    </md-grid-tile>
-    <md-grid-tile class="header"
-        colspan="1"
-        rowspan="1">
-      Duration
-    </md-grid-tile>
+  <md-grid-list cols="9" rowHeight="28">
     <template ngFor let-track
               [ngForOf]="(asyncData| async)?.results | paginate: { id: 'server', itemsPerPage: 20, currentPage: page, totalItems: count }"
               let-i="index">
