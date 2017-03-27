@@ -40,7 +40,7 @@ export class PaginationComponent implements OnChanges {
     public count: number;
     public loading: boolean;
 
-    @Input('data') private data: PaginationServerResponse<TrackData>;
+    @Input('data') public data: PaginationServerResponse<TrackData>;
     constructor(private http: Http) {
     }
 

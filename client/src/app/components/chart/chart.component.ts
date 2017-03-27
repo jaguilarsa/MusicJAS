@@ -27,10 +27,10 @@ export interface Margins {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartComponent implements OnInit, OnChanges, OnDestroy {
-    @ViewChild('chart') private chartContainer: ElementRef;
+    @ViewChild('chart') public chartContainer: ElementRef;
 
-    @Input('data') private data: ChartData[];
-    @Input('margin') private margin: Margins = { top: 80, bottom: 80, left: 140, right: 80 };
+    @Input('data') public data: ChartData[];
+    @Input('margin') public margin: Margins = { top: 80, bottom: 80, left: 140, right: 80 };
 
     private subs: Subscription[] = [];
 

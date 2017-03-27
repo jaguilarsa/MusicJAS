@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { MdSidenav } from '@angular/material/sidenav';
 import { Observable } from 'rxjs/Observable';
+import {
+    PaginationServerResponse, TrackData
+} from '../../components/pagination/pagination.component';
+import { ChartData } from '../../components/chart/chart.component';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/switch';
-import 'rxjs/add/observable/fromPromise';
-import { PaginationServerResponse, TrackData } from '../../components/pagination/pagination.component';
-import { ChartData } from '../../components/chart/chart.component';
 
 interface ListData {
     name: string;
@@ -38,7 +38,7 @@ export class MainViewComponent implements OnInit {
     }
 
     @ViewChild('right') public right: MdSidenav;
-    @ViewChild('left') private left: MdSidenav;
+    @ViewChild('left') public left: MdSidenav;
 
     private _selected: number;
 
